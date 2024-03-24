@@ -301,32 +301,32 @@ def yolo2coco(root_path):
 
 def main(args):
 
-    # print("Generating 2D reprojections of the nuScenes dataset")
-    #
-    # # Get tokens for all camera images.
-    # sample_data_camera_tokens = [s['token'] for s in nusc.sample_data if (s['sensor_modality'] == 'camera') and
-    #                              s['is_key_frame']]
-    #
-    # # For debugging purposes: Only produce the first n images.
-    # if args.image_limit != -1:
-    #     sample_data_camera_tokens = sample_data_camera_tokens[:args.image_limit]
-    #
-    # # Loop through the records and apply the re-projection algorithm.
-    # reprojections = []
-    # for token in tqdm(sample_data_camera_tokens):
-    #     reprojection_records = get_2d_boxes(token, args.visibilities)
-    #     reprojections.extend(reprojection_records)
-    #
-    # # Save to a .json file.
-    # dest_path = os.path.join(args.dataroot, args.version)
-    # if not os.path.exists(dest_path):
-    #     os.makedirs(dest_path)
-    # with open(args.json_path, 'w') as fh:
-    #     json.dump(reprojections, fh, sort_keys=True, indent=4)
-    # print("Saved the 2D re-projections under {}".format(args.json_path))
-    # make_classes(nusc, args.classes_file)
-    # generate_split_lists(args.dataroot)
-    # make_labels(args.json_path, args.dataroot, 'labels')
+    print("Generating 2D reprojections of the nuScenes dataset")
+
+    # Get tokens for all camera images.
+    sample_data_camera_tokens = [s['token'] for s in nusc.sample_data if (s['sensor_modality'] == 'camera') and
+                                 s['is_key_frame']]
+
+    # For debugging purposes: Only produce the first n images.
+    if args.image_limit != -1:
+        sample_data_camera_tokens = sample_data_camera_tokens[:args.image_limit]
+
+    # Loop through the records and apply the re-projection algorithm.
+    reprojections = []
+    for token in tqdm(sample_data_camera_tokens):
+        reprojection_records = get_2d_boxes(token, args.visibilities)
+        reprojections.extend(reprojection_records)
+
+    # Save to a .json file.
+    dest_path = os.path.join(args.dataroot, args.version)
+    if not os.path.exists(dest_path):
+        os.makedirs(dest_path)
+    with open(args.json_path, 'w') as fh:
+        json.dump(reprojections, fh, sort_keys=True, indent=4)
+    print("Saved the 2D re-projections under {}".format(args.json_path))
+    make_classes(nusc, args.classes_file)
+    generate_split_lists(args.dataroot)
+    make_labels(args.json_path, args.dataroot, 'labels')
     yolo2coco('./')
     print("NuScenes data processing complete.")
 
