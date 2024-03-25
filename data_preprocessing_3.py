@@ -293,7 +293,8 @@ def yolo2coco(root_path):
                         ann_id_cnt += 1
 
         # 保存结果
-    for dataset_name in ['train', 'val', 'test']:
+  os.makedirs(os.path.join(root_path, 'annotations'), exist_ok=True)
+  for dataset_name in ['train', 'val', 'test']:
             with open(os.path.join(root_path, 'annotations', f'instances_{dataset_name}2017.json'), 'w') as f:
                 json.dump(datasets[dataset_name], f, indent=4)
 
